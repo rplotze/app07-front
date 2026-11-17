@@ -15,13 +15,13 @@ async function carregarProdutos(nome = "") {
             url += "buscar?nome=" + encodeURIComponent(nome);
         }
 
-        const resposta = fetch(url);
+        const resposta = await fetch(url);
 
         if (!resposta.ok) {
             throw new Error("Erro ao consultar produtos.");
         }
 
-        const dados = resposta.json();
+        const dados = await resposta.json();
 
         lista.innerHTML = "";
 
