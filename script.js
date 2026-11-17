@@ -1,0 +1,46 @@
+const API_URL = "https://app07-o5vs.onrender.com/produtos/";
+
+const lista = document.getElementById("lista-produtos");
+
+async function carregarProdutos() {
+    const resposta = await fetch(API_URL);
+    const dados = await resposta.json();
+
+    lista.innerHTML = "";
+    dados.forEach((p) => {
+        const li = document.createElement("tr");
+        li.innerHTML = `<td style='width:60%'>${p.nome} </td> <td style='width:30%'>R$ ${p.preco.toFixed(2)}</td><td style='width:10%'>
+        <button onclick="removerProduto(${p.id})" class="btn-excluir">
+        Excluir </button></td>`;
+        lista.appendChild(li);
+    });
+
+}
+carregarProdutos();
+
+const btnAdicionar = document.getElementById('btn-adicionar');
+btnAdicionar.addEventListener('click', adicionarProduto);
+
+async function adicionarProduto() {
+    const nome = document.getElementById("nome").value;
+    const preco = document.getElementById("preco").value;
+
+    await fetch(API_URL, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ nome, preco }),
+    });
+
+    document.getElementById("nome").value = "";
+    document.getElementById("preco").value = "";
+
+    alert("Produto adicionado com sucesso!");
+
+    carregarProdutos();
+}
+
+async function removerProduto(id) {
+    await fetch(API_URL + id, { method: "DELETE" });
+    alert("Produto apagado com sucesso!");
+    carregarProdutos();
+}
