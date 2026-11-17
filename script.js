@@ -98,7 +98,7 @@ async function pesquisarProduto(){
         alert("Informe o nome do produto para pesquisar");
         return;
     }
-    carregarProdutos();
+    carregarProdutos(nome);
 }
 
 // ---------------------------------------------------------------
